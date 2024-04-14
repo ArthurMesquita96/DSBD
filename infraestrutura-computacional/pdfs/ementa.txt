@@ -1,0 +1,19 @@
+AULA 01 - 08/mar
+- Introdução ao curso
+- Sistema GNU/Linux
+- Acesso local e remoto
+- Comandos básicos
+- Sistemas de Arquivos
+- Permissões de arquivos
+- Operações com arquivos
+
+AULA 02 - 16/mar
+- Filtros
+- Expressões regulares
+- Controle de Processos
+- Concatenação de operações
+- Entrada e saída	
+
+AULA 03 - 05/abr
+- Editor vi
+- Shell script
