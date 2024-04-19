@@ -1,0 +1,4 @@
+Anatomy of a linux Kernel: https://developer.ibm.com/articles/l-linux-kernel/
+Linux OS Tutorial: https://www.tutorialspoint.com/operating_system/os_linux.html
+Introduction to UNIX: https://www.doc.ic.ac.uk/~wjk/UnixIntro/
+Introduction to Linux: https://tldp.org/LDP/intro-linux/html/index.html
