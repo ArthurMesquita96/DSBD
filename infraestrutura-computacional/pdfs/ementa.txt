@@ -1,3 +1,5 @@
+#### Parte I - Lucas
+
 AULA 01 - 08/mar
 - Introdução ao curso
 - Sistema GNU/Linux
@@ -17,3 +19,20 @@ AULA 02 - 16/mar
 AULA 03 - 05/abr
 - Editor vi
 - Shell script
+
+#### Parte II - Paulo
+
+Objetivos
+- Compreender os conceitos de redes de computadores, Internet, Web e nuvem.
+- Utilizar ferramentas básicas de gestão e manipulação de redes.
+- Identiﬁcar as conﬁgurações de rede de máquinas locais.
+- Acessar recursos em computadores remotos.
+- Desenvolver serviços baseados na Web e na nuvem.
+
+AULA 04 - 13/04
+
+AULA 05 - 04/05
+
+AULA 06 - 10/05
+
+
