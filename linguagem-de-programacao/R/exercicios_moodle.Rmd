@@ -1,0 +1,340 @@
+---
+title: "aula03_exercicio1"
+output: html_document
+date: "2024-06-07"
+---
+
+```{r}
+library(dplyr)
+library(lubridate)
+```
+
+### 1) Considere as notas de alunos descritas no vetor numérico nomeado em Notas e os alunos que entregaram os trabalhos descritas no vetor lógico nomeado em Trabalhos:
+
+```{r}
+alunos <- data.frame(
+  nome=c("João","Maria","José","Ana","Pedro","Paula","Carlos","Mariana","Fernando","Luiza"),
+  nota=c(31,53,63,72,35,59,74,94,31, 63),
+  trabalho=c(FALSE,FALSE,FALSE,TRUE,FALSE,FALSE,TRUE,TRUE,FALSE,FALSE)
+)
+
+alunos
+```
+
+#### A raiz quadrada da média dos alunos é
+
+```{r}
+sqrt(mean(notas))
+```
+
+#### A mediana dos alunos que entregaram o trabalho é:
+
+```{r}
+median(alunos[alunos["trabalho"] == TRUE,"nota"])
+
+```
+
+#### A maior nota dentre os alunos que não entregaram o trabalho é:
+
+```{r}
+max(alunos[alunos["trabalho"] == FALSE,"nota"])
+
+```
+
+#### Assuma que a média para aprovação direta é 70, alunos com média inferior a 40 tem reprovação direta, os demais estão em recuperação. A quantidade de alunos em recuperação que entregou os trabalhos é:
+
+```{r}
+alunos[alunos["nota"] >= 40 & alunos["nota"] < 70 & alunos["trabalho"] == FALSE, "nome"]
+
+```
+
+#### O desvio-padrão das notas dos alunos que entregaram os trabalhos é:
+
+```{r}
+sd(alunos[alunos["trabalho"] == TRUE,"nota"])
+
+```
+
+### Considere as matrizes A, B e C dadas por:
+
+```{r}
+vt1 <- c(48, 28, 37, 43, 0)
+vt2 <- c(25, 40, 17, 32, 35)
+vt3 <- c(31, 24, 32, 20, 19)
+vt4 <- c(16, 48, 44, 38, 35)
+vt5 <- c(0, 50, 38, 35, 23)
+
+A <- cbind(vt1, vt2, vt3, vt4, vt5)
+
+vt1 <- c(49, 22, 8, 22, 6)
+vt2 <- c(28, 47, 13, 49, 1)
+vt3 <- c(3, 22, 22, 25, 5)
+vt4 <- c(19, 46, 21, 41, 50)
+vt5 <- c(50, 49, 45, 41, 36)
+
+B <- cbind(vt1, vt2, vt3, vt4, vt5)
+
+C <- B %*% solve(t(B) %*% B) %*% t(B)
+```
+
+```{r}
+A
+```
+```{r}
+B
+```
+```{r}
+C
+```
+#### O log10 do valor absoluto do determinante de C é: 
+```{r}
+log10(det(C))
+```
+#### O log10 do valor absoluto do determinante da matriz resultante do produto matricial entre A e B é:
+
+```{r}
+log10(det(A %*% B ))
+```
+#### A soma dos valores absolutos da diagonal da matriz B é:
+```{r}
+B
+49+47+22+41+36
+```
+```{r}
+A
+25+31+16+0+24+48+50+44+38+35
+```
+```{r}
+solve(A %*% B)
+```
+
+#### A variância amostral (S2), o desvio médio absoluto (DMA) e o segundo coeficiente de assimetria de Pearson (AS2) são medidas definidas, respectivamente, por:
+#### em que x¯ é a média amostral, Md é a mediana e |a| corresponde ao módulo de a.Implemente uma função em R que retorne uma lista com os valores de S2, DMA e AS2 de uma variável quantitativa qualquer. Na sequência, considere o banco de dados CO2 disponível no R para responder às questões abaixo, dê suas respostas utilizando quatro casas decimais.
+
+```{r}
+CO2
+
+variancia_amostral <- function(x) {
+  n <- length(x)           # Número de observações
+  media <- mean(x)         # Média amostral
+  soma_quadrados <- sum((x - media)^2)  # Soma dos quadrados das diferenças da média
+  variancia <- soma_quadrados / (n - 1) # Variância amostral
+  return(variancia)
+}
+
+desvio_medio_absoluto <- function(x) {
+  n <- length(x)            # Número de observações
+  media <- mean(x)          # Média amostral
+  soma_desvios <- sum(abs(x - media))  # Soma dos desvios absolutos
+  dma <- soma_desvios / (n - 1)   # Desvio médio absoluto
+  return(dma)
+}
+
+segundo_coeficiente_pearson <- function(x) {
+  media <- mean(x)          # Média amostral
+  mediana <- median(x)      # Mediana
+  desvio_padrao <- sd(x)    # Desvio padrão amostral
+  skewness <- 3 * (media - mediana) / desvio_padrao  # Cálculo da assimetria
+  return(skewness)
+}
+
+```
+#### A S2 da variável conc é:
+```{r}
+variancia_amostral(CO2[["conc"]])
+```
+
+
+#### O DMA da variável conc é:
+```{r}
+desvio_medio_absoluto(CO2[["conc"]])
+```
+#### No nível Mn1 da variável Plant, o AS2 da variável uptake é:
+```{r}
+segundo_coeficiente_pearson(CO2[CO2["Plant"] == "Mn1", "uptake"])
+```
+
+
+#### Considerando apenas o nível Mn1 da variável Plant, o DMA da variável uptake é:
+```{r}
+desvio_medio_absoluto(CO2[CO2["Plant"] == "Mn1", "uptake"])
+```
+
+#### Considere uma matriz m×m, em que m é um inteiro positivo. Implemente uma função em R que realize a varredura de uma matriz e execute uma operação específica que depende do valor encontrado na matriz (aij), conforme as seguintes regras:
+
+##### Se aij for um número primo, multiplique-o por 4.
+##### Se aij for um quadrado perfeito, subtraia 15. Caso o resultado obtido for negativo, eleve a 2a potência.
+##### Se aij for negativo na matriz original, calcule a raiz 4a de seu módulo.
+##### Caso contrário, não faça nada.
+
+```{r}
+eh_primo <- function(n) {
+  if (n <= 1) {
+    return(FALSE)
+  }
+  if (n == 2) {
+    return(TRUE)
+  }
+  for (i in 2:sqrt(n)) {
+    if (n %% i == 0) {
+      return(FALSE)
+    }
+  }
+  return(TRUE)
+}
+
+eh_quadrado_perfeito <- function(n) {
+  raiz <- sqrt(n)
+  return(raiz == floor(raiz))
+}
+
+# Função principal para aplicar as regras à matriz
+processar_matriz <- function(mat) {
+  # Verifica o tamanho da matriz
+  m <- nrow(mat)
+  
+  # Cria uma nova matriz para armazenar os resultados
+  resultado <- mat
+  
+  for (i in 1:m) {
+    for (j in 1:m) {
+      valor <- mat[[i, j]]
+
+      if(valor < 0) {
+        resultado[i, j] <- abs(valor)^(1/4)
+      }
+      else if (eh_primo(valor)) {
+        resultado[i, j] <- valor * 4
+      } else if (eh_quadrado_perfeito(valor)) {
+        resultado[i, j] <- valor - 15
+        if (resultado[i, j] < 0) {
+          resultado[i, j] <- resultado[i, j]^2
+        }
+      } 
+    }
+  }
+  
+  return(resultado)
+}
+
+```
+
+```{r}
+vt1 <- c(-4, -7, -5)
+vt2 <- c(4, 2, -8)
+vt3 <- c(6, -10, 10)
+
+A <- cbind(vt1, vt2, vt3)
+
+vt1 <- c(13, 6, 2, 14)
+vt2 <- c(-8, 4, 11, -1)
+vt3 <- c(-5, 10, 18, 20)
+vt4 <- c(9, 0, 7, -3)
+
+B <- cbind(vt1, vt2, vt3, vt4)
+
+vt1 <- c(8, 7, -8, 6, 27)
+vt2 <- c(29, 11, -3, 13, -7)
+vt3 <- c(15, 25, 24, 0, 22)
+vt4 <- c(19, 21, 9, 10, 16)
+vt5 <- c(30, -5, 23, 17, 5)
+
+C <- cbind(vt1, vt2, vt3, vt4, vt5)
+```
+
+```{r}
+A
+```
+```{r}
+B
+```
+```{r}
+C
+```
+
+```{r}
+A_tranf <- processar_matriz(A)
+B_tranf <- processar_matriz(B)
+C_tranf <- processar_matriz(C)
+
+```
+
+
+#### A soma dos elementos da diagonal principal da matriz A  transformada é:
+```{r}
+sum(diag(A_tranf))
+```
+
+#### O maior elemento, em módulo, da matriz C transformada é:
+```{r}
+C_tranf
+```
+
+#### A soma dos elementos da coluna 2 da matriz C transformada é:
+```{r}
+C_tranf
+
+116+44+1.316074+52+1.626577
+```
+
+
+#### O número de primos na matriz B transformada é:
+```{r}
+m <- nrow(B_tranf)
+for (i in 1:m) {
+    for (j in 1:m) {
+      valor <- B_tranf[[i, j]]
+      
+      print(eh_primo(valor))
+    }
+}
+
+```
+
+
+
+#### O número de primos na matriz B transformada é:
+```{r}
+m <- nrow(A_tranf)
+for (i in 1:m) {
+    for (j in 1:m) {
+      valor <- A_tranf[[i, j]]
+      
+      print(eh_quadrado_perfeito(valor))
+    }
+}
+A_tranf
+```
+```{r}
+diamonds <- ggplot2::diamonds
+```
+
+```{r}
+diamonds
+```
+```{r}
+diamonds[diamonds["cut"] == "Premium", "cut"]
+```
+
+```{r}
+diamonds %>%
+  filter(color == "H") %>%
+  summarise(media = mean(price, na.rm = TRUE))
+```
+
+
+```{r}
+diamonds %>%
+  filter(carat > 3.2*0.2)
+```
+
+```{r}
+diamonds %>%
+  filter(carat > 3.2*0.2) %>%
+  summarise(media = mean(price,na.rm=TRUE))
+```
+
+```{r}
+diamonds %>%
+  filter(color == "F" & clarity == "VS2" & carat > 3.5*0.2)
+```

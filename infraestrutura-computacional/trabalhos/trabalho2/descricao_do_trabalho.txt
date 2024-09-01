@@ -1,0 +1,4 @@
+https://arthurmesquita96.github.io/Portfolio-de-Projetos/
+
+Esta é a minha página pessoal, onde detalho um pouco da minha trajetória, aspirações e projetos pessoais já realizados.
+Esta página web está hospedada no github pages. Criei ela há mais ou menos 2 anos atrás utilizando um template da https://html5up.net/ chamado Editprial. Nesta página, é possível baixar templates HTML gratuitamente. Cada template possui uma página configurada com HTML, CSS e Java Script e, a partir desse template, customizei as cores, os paragrafos, a fonte, e os carosseis com as informações dos projetos
